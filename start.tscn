@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bx2ishf5t4erh"]
+
+[ext_resource type="Script" path="res://GameInitializer.gd" id="1_wapju"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_wapju")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control"]
+offset_right = 72.0
+offset_bottom = 66.0
+
+[node name="Client" type="Button" parent="Control/VBoxContainer2"]
+layout_mode = 2
+text = "Start Client"
+
+[node name="Server" type="Button" parent="Control/VBoxContainer2"]
+layout_mode = 2
+text = "Start Server"
+
+[connection signal="pressed" from="Control/VBoxContainer2/Client" to="Control" method="_on_client_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer2/Server" to="Control" method="_on_server_pressed"]
