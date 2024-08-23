@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://lnaehe1q44h1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_anthj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ga4ig"]
+albedo_color = Color(0.611335, 0.00393864, 0.963247, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6cm25"]
+material = SubResource("StandardMaterial3D_ga4ig")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ipux8"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:scale")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_anthj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_6cm25")
+
+[node name="Server" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ipux8")

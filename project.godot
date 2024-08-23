@@ -14,3 +14,7 @@ config/name="Multiplayer-godot-4.2"
 run/main_scene="res://start.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+lobby_manager="*res://both/lobby_manager.gd"

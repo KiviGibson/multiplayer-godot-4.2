@@ -1,0 +1,92 @@
+[gd_scene load_steps=2 format=3 uid="uid://dt7a1xg0cwyp3"]
+
+[ext_resource type="Texture2D" uid="uid://kuo1ty0gf5ak" path="res://icon.svg" id="1_5kwn3"]
+
+[node name="SearchMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button2" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button3" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button4" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button5" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button6" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button7" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button8" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button9" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
+
+[node name="Button10" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "jamal 
+"
+icon = ExtResource("1_5kwn3")
