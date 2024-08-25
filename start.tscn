@@ -12,6 +12,7 @@ offset_bottom = 40.0
 script = ExtResource("1_wapju")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Control"]
+layout_mode = 0
 offset_right = 72.0
 offset_bottom = 66.0
 
