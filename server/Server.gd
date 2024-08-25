@@ -6,7 +6,9 @@ const PORT := 2555
 const MAX_TRAFFIC := 10
 var current_lobby: Lobby
 var lobby_id := 0
+
 func _ready() -> void:
+	multiplayer.allow_object_decoding = true
 	self.name = "multi"
 	print("Starting Server")
 	var peer := ENetMultiplayerPeer.new()
@@ -18,7 +20,7 @@ func _ready() -> void:
 	print("Server listening on port: " + str(PORT))
 	multiplayer.peer_connected.connect(_on_player_connection)
 	multiplayer.peer_disconnected.connect(_on_player_disconnection)
-	
+
 func _on_player_connection(id: int) -> void:
 	if not multiplayer.is_server():
 		return

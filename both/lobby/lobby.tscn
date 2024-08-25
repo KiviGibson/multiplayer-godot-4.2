@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmf0tdndqh2ym"]
+
+[ext_resource type="Script" path="res://both/lobby/lobby.gd" id="1_sp031"]
+[ext_resource type="Script" path="res://both/game/Game.gd" id="2_arvk4"]
+[ext_resource type="PackedScene" uid="uid://2y0cku55c21l" path="res://both/game/unit/Units/Scenes/worker.tscn" id="3_eahqf"]
+
+[node name="Lobby" type="Node3D" node_paths=PackedStringArray("game_root", "spawner")]
+script = ExtResource("1_sp031")
+game_root = NodePath("Game")
+spawner = NodePath("PlayerSpawn")
+
+[node name="PlayerSpawn" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://both/player.tscn")
+spawn_path = NodePath("..")
+spawn_limit = 2
+
+[node name="Game" type="Node3D" parent="."]
+script = ExtResource("2_arvk4")
+worker_scene = ExtResource("3_eahqf")
+
+[node name="MapSpawn" type="MultiplayerSpawner" parent="Game"]
+_spawnable_scenes = PackedStringArray("res://both/game/maps/first_map.tscn")
+spawn_path = NodePath("..")
+spawn_limit = 1
+
+[node name="UnitSpawn" type="MultiplayerSpawner" parent="Game"]
+_spawnable_scenes = PackedStringArray("res://both/game/unit/Units/Scenes/worker.tscn")
+spawn_path = NodePath("..")

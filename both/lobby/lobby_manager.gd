@@ -2,7 +2,7 @@ class_name LobbyManager
 
 extends Node
 
-var lobby: PackedScene = preload("res://both/lobby.tscn")
+var lobby: PackedScene = preload("res://both/lobby/lobby.tscn")
 
 @rpc("authority")
 func enter_lobby(n: String) -> void:
