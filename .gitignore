@@ -3,3 +3,4 @@
 /builds
 /client/mats/material_textures
 *.tmp
+/client/objects

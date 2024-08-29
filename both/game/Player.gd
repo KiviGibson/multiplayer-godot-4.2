@@ -4,6 +4,7 @@ extends Node3D
 
 var game: Game
 @export var cam: Camera3D
+@export var cam_controll: Node3D
 @export var selection: Area3D
 @export var decal: Node3D
 var units: Array[Unit]
@@ -32,23 +33,25 @@ func _process(delta: float) -> void:
 		move_units.rpc(cam.project_position(get_viewport().get_mouse_position(), 10))
 	if editing:
 		editing_selection()
-
-@rpc("call_local")
+# Player Input
 func move_camera(delta: float) -> void:
 	var view := get_viewport()
 	var mouse_position := view.get_mouse_position()
 	var screen_size:Vector2 = view.size
 	if 0 <= mouse_position.x and mouse_position.x <= offset:
-		cam.global_position.x -= speed * delta
+		cam_controll.global_position.x -= speed * delta
+		cam_controll.global_position.z += speed * delta
 	elif screen_size.x >= mouse_position.x and mouse_position.x >= screen_size.x - offset:
-		cam.global_position.x += speed * delta
+		cam_controll.global_position.x += speed * delta
+		cam_controll.global_position.z -= speed * delta
 	if 0 <= mouse_position.y and mouse_position.y <= offset:
-		cam.global_position.z -= speed * delta
+		cam_controll.global_position.x -= speed * delta
+		cam_controll.global_position.z -= speed * delta
+		pass
 	elif screen_size.y >= mouse_position.y and mouse_position.y >= screen_size.y - offset:
-		cam.global_position.z += speed * delta
-	
+		cam_controll.global_position.z += speed * delta
+		cam_controll.global_position.x += speed * delta
 
-# Select Units\
 func on_mouse_press() -> void:
 	var mouse_position := cam.project_position(get_viewport().get_mouse_position(), 10)
 	selection_start =  Vector2(mouse_position.x, mouse_position.z)
@@ -61,34 +64,36 @@ func editing_selection() -> void:
 	var difference := Vector2(abs(vector.z-vector.x), abs(vector.y-vector.w)) 
 	decal.global_position = Vector3(vector.z,0,vector.w)
 	decal.scale = Vector3(difference.x,difference.x*difference.y,difference.y)
+	selection.global_position = Vector3(vector.z,0,vector.w)
+	selection.scale = Vector3(difference.x,1,difference.y)
 
 func on_mouse_release() -> void:
 	deselect.rpc()
-	var mouse_position = cam.project_position(get_viewport().get_mouse_position(), 10)
-	var pos := Vector2(mouse_position.x, mouse_position.z)
-	var vector := get_vectors(selection_start, pos)
-	var difference := Vector2(abs(vector.z-vector.x), abs(vector.y-vector.w)) 
-	selection.global_position = Vector3(vector.z,0,vector.w)
-	selection.scale = Vector3(difference.x,1,difference.y)
 	for obj in selection.get_overlapping_bodies():
 		if obj is Unit:
-			obj.select.rpc(self.get_path())
-			pass
+			print(obj.name)
+			select.rpc(obj.get_path())
+
+# Select Units
+@rpc("any_peer")
+func select(selected_unit: String) -> void:
+	var node: Unit = get_node(selected_unit)
+	if node.player_id == multiplayer.get_remote_sender_id():
+		self.units.append(node)
+		print("Added: " + self.name+ " to be controlled by: " + str(node.player_id))
 
 @rpc("any_peer")
 func deselect() -> void:
 	units.clear()
-	
+
 # Unit Commands
 @rpc("any_peer")
 func move_units(point: Vector3) -> void:
 	if not multiplayer.is_server():
-		print(point)
 		return
 	for unit in units:
-		unit.target_position = point
-	print(units)
-
+		if unit.player_id == multiplayer.get_remote_sender_id():
+			unit.target_position = point
 
 func get_vectors(a: Vector2, b:Vector2) -> Vector4:
 	return Vector4(min(a.x, b.x), min(a.y, b.y), max(a.x, b.x), max(a.y, b.y))
