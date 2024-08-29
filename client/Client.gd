@@ -5,7 +5,6 @@ extends Node3D
 const ADDRESS := "127.0.0.1"
 const PORT := 2555
 func _ready() -> void:
-	multiplayer.allow_object_decoding = true
 	self.name = "multi"
 	multiplayer.connected_to_server.connect(_on_connection)
 	multiplayer.connection_failed.connect(_on_connection_fail)

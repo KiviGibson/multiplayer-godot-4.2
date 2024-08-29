@@ -15,10 +15,3 @@ var target_position: Vector3:
 	set(value):
 		new_position.emit()
 		target_position = value
-
-@rpc("any_peer")
-func select(player: String) -> void:
-	if player_id == multiplayer.get_remote_sender_id():
-		var plobj := get_node(player)
-		if plobj is Player:
-			plobj.units.append(self)

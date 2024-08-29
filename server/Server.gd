@@ -8,7 +8,6 @@ var current_lobby: Lobby
 var lobby_id := 0
 
 func _ready() -> void:
-	multiplayer.allow_object_decoding = true
 	self.name = "multi"
 	print("Starting Server")
 	var peer := ENetMultiplayerPeer.new()

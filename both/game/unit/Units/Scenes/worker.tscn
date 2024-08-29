@@ -24,6 +24,9 @@ script = ExtResource("1_51c1x")
 pathfinding = NodePath("NavigationAgent3D")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+target_desired_distance = 0.5
+avoidance_enabled = true
+radius = 0.6
 debug_enabled = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
