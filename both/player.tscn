@@ -10,12 +10,13 @@ colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_sf5jn"]
 gradient = SubResource("Gradient_c2ru5")
 
-[node name="Player" type="Node3D" node_paths=PackedStringArray("cam", "cam_controll", "selection", "decal")]
+[node name="Player" type="Node3D" node_paths=PackedStringArray("cam", "cam_controll", "selection", "decal", "text")]
 script = ExtResource("1_jtyiw")
 cam = NodePath("CamController/Camera3D")
 cam_controll = NodePath("CamController")
 selection = NodePath("Area3D")
 decal = NodePath("DecalHolder")
+text = NodePath("Control/VBoxContainer/HBoxContainer/Label")
 
 [node name="Area3D" type="Area3D" parent="."]
 
@@ -41,3 +42,27 @@ lower_fade = 1e-05
 transform = Transform3D(0.707107, -0.704416, 0.0616285, 0, 0.0871558, 0.996195, -0.707107, -0.704416, 0.0616285, 0, 10, 0)
 visible = false
 near = 0.001
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
