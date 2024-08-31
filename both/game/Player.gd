@@ -9,6 +9,7 @@ var game: Game
 @export var decal: Node3D
 @export var text: Label
 var units: Array[Unit]
+var setups: Array[Array] = []
 var selection_start: Vector2 = Vector2(0,0)
 var offset := 20
 var speed := 10
@@ -18,6 +19,11 @@ var control: bool = false
 func _ready() -> void:
 	if self.name == str(multiplayer.get_unique_id()):
 		cam.visible = true
+	if multiplayer.is_server():
+		for i in range(1,9):
+			var arr: Array[Unit] = []
+			setups.append(arr)
+		print(setups)
 
 func _process(delta: float) -> void:
 	if multiplayer.is_server() and cam.visible == false:
@@ -39,6 +45,13 @@ func _process(delta: float) -> void:
 		move_units.rpc(cam.project_position(get_viewport().get_mouse_position(), 10))
 	if Input.is_action_just_pressed("commandZ"):
 		call_unit_ability.rpc("z")
+	for i in range(1,9):
+		if Input.is_action_just_pressed("Group"+str(i)):
+			if control:
+				setup_preset.rpc(i-1)
+			else:
+				get_preset.rpc(i-1)
+			break
 	if selecting:
 		update_selection()
 
@@ -60,10 +73,31 @@ func move_camera(delta: float) -> void:
 		cam_controll.global_position.z += speed * delta
 		cam_controll.global_position.x += speed * delta
 
+@rpc("any_peer")
+func setup_preset(i: int) -> void:
+	if not multiplayer.is_server():
+		return
+	setups[i].clear()
+	setups[i].append_array(units)
+	print(str(setups[i]) + "added to slot nr. " + str(i))
+	
+@rpc("any_peer")
+func get_preset(i: int) -> void:
+	if not multiplayer.is_server():
+		return
+	print(setups[i])
+	if len(setups[i]) > 0: 
+		if setups[i] is Array[Unit]:
+			units.clear() 
+			units.append_array(setups[i])
+			print("now controlling: " + str(units))
+			display_current.rpc_id(multiplayer.get_remote_sender_id(), units[0].name)
+		else:
+			print("Error: Something wrong when picking group!")
+	
 func start_selection() -> void:
 	var mouse_position := cam.project_position(get_viewport().get_mouse_position(), 10)
 	selection_start =  Vector2(mouse_position.x, mouse_position.z)
-	# print(selection_start)
 
 func update_selection() -> void:
 	var mouse_position = cam.project_position(get_viewport().get_mouse_position(), 10)
@@ -87,6 +121,8 @@ func end_selection() -> void:
 # Select Units
 @rpc("any_peer")
 func select(selected_unit: String) -> void:
+	if not multiplayer.is_server():
+		return
 	var node: Unit = get_node(selected_unit)
 	if node.player_id == multiplayer.get_remote_sender_id() and not node in units:
 		self.units.append(node)
@@ -96,6 +132,8 @@ func select(selected_unit: String) -> void:
 
 @rpc("any_peer")
 func deselect() -> void:
+	if not multiplayer.is_server():
+		return
 	units.clear()
 
 # Unit Commands
@@ -109,7 +147,8 @@ func move_units(point: Vector3) -> void:
 
 @rpc("any_peer")
 func call_unit_ability(command: String) -> void:
-	#add distribution of load
+	if not multiplayer.is_server():
+		return
 	if len(units) <= 0:
 		return
 	units[0].command(command)

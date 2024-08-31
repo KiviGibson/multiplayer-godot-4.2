@@ -12,11 +12,12 @@ var capacity := 5
 
 func _ready() -> void:
 	super._ready()
-	print(training_queue)
 	target_position = global_position+ Vector3(1,0,1)
 
 func command(type: String) -> void:
 	if type == "z":
+		if not training_queue[last_index] == null:
+			return
 		var new_unit = TrainableUnit.new()
 		new_unit.item = worker
 		new_unit.time = 5
@@ -33,6 +34,7 @@ func spawn_unit() -> void:
 
 func _on_unit_train_taimer_timeout() -> void:
 	var unit: Unit = training_queue[first_index].item.instantiate()
+	training_queue[first_index] = null
 	first_index += 1
 	first_index %= capacity
 	unit.name = "Worker" + str(randi())

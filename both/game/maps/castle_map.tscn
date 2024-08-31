@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://7jv4qwsuqhes"]
+[gd_scene load_steps=7 format=3 uid="uid://7jv4qwsuqhes"]
 
 [ext_resource type="Script" path="res://both/game/MapNode.gd" id="1_4jp2f"]
 [ext_resource type="MeshLibrary" uid="uid://ne5tjhwy0ghw" path="res://client/objects/castle/Castle.tres" id="1_d66si"]
@@ -11,6 +11,8 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Arr
 [sub_resource type="PlaneMesh" id="PlaneMesh_0fask"]
 material = ExtResource("2_kt2mg")
 size = Vector2(60, 60)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rwbij"]
 
 [node name="CastleMap" type="NavigationRegion3D" node_paths=PackedStringArray("bases", "spawns")]
 navigation_mesh = SubResource("NavigationMesh_krftg")
@@ -48,3 +50,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 18)
 [node name="StructureSpawn" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://both/game/unit/Structures/Scenes/base.tscn")
 spawn_path = NodePath("..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_rwbij")
