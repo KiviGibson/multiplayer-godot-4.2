@@ -23,7 +23,6 @@ func _ready() -> void:
 		for i in range(1,9):
 			var arr: Array[Unit] = []
 			setups.append(arr)
-		print(setups)
 
 func _process(delta: float) -> void:
 	if multiplayer.is_server() and cam.visible == false:
@@ -79,18 +78,15 @@ func setup_preset(i: int) -> void:
 		return
 	setups[i].clear()
 	setups[i].append_array(units)
-	print(str(setups[i]) + "added to slot nr. " + str(i))
 	
 @rpc("any_peer")
 func get_preset(i: int) -> void:
 	if not multiplayer.is_server():
 		return
-	print(setups[i])
 	if len(setups[i]) > 0: 
 		if setups[i] is Array[Unit]:
 			units.clear() 
 			units.append_array(setups[i])
-			print("now controlling: " + str(units))
 			display_current.rpc_id(multiplayer.get_remote_sender_id(), units[0].name)
 		else:
 			print("Error: Something wrong when picking group!")
@@ -115,7 +111,6 @@ func end_selection() -> void:
 	display_current("")
 	for obj in selection.get_overlapping_bodies():
 		if obj is Unit:
-			# print(obj.name)
 			select.rpc(obj.get_path())
 
 # Select Units
@@ -128,7 +123,6 @@ func select(selected_unit: String) -> void:
 		self.units.append(node)
 		if len(units) > 0:
 			display_current.rpc_id(multiplayer.get_remote_sender_id(), units[0].name)
-			# print(units)
 
 @rpc("any_peer")
 func deselect() -> void:
