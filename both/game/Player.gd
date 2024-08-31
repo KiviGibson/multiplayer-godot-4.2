@@ -37,6 +37,8 @@ func _process(delta: float) -> void:
 		decal.visible = false
 	if Input.is_action_just_pressed("Move"):
 		move_units.rpc(cam.project_position(get_viewport().get_mouse_position(), 10))
+	if Input.is_action_just_pressed("commandZ"):
+		call_unit_ability.rpc("z")
 	if selecting:
 		update_selection()
 
@@ -90,7 +92,6 @@ func select(selected_unit: String) -> void:
 		self.units.append(node)
 		if len(units) > 0:
 			display_current.rpc_id(multiplayer.get_remote_sender_id(), units[0].name)
-			
 			# print(units)
 
 @rpc("any_peer")
@@ -105,6 +106,15 @@ func move_units(point: Vector3) -> void:
 	for unit in units:
 		if unit.player_id == multiplayer.get_remote_sender_id():
 			unit.target_position = point
+
+@rpc("any_peer")
+func call_unit_ability(command: String) -> void:
+	#add distribution of load
+	if len(units) <= 0:
+		return
+	units[0].command(command)
+	print(units[0].name + " trying to execute command: " + command)
+	pass
 
 @rpc("authority")
 func display_current(n: String) -> void:

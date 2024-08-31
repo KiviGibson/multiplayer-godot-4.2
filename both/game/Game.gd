@@ -32,6 +32,7 @@ func spawn_base_equipment(player_id: int) -> Vector3:
 	base_node.bilt.connect(_on_structure_bilt)
 	map_node.add_child(base_node, true)
 	base_node.global_position = base_pos
+	base_node.game_root = self
 	return base_pos
 
 func _on_structure_bilt() -> void:
