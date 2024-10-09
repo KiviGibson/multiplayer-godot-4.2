@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://7jv4qwsuqhes"]
+[gd_scene load_steps=7 format=3 uid="uid://7jv4qwsuqhes"]
 
+[ext_resource type="Script" path="res://both/game/MapNode.gd" id="1_4jp2f"]
 [ext_resource type="MeshLibrary" uid="uid://ne5tjhwy0ghw" path="res://client/objects/castle/Castle.tres" id="1_d66si"]
 [ext_resource type="Material" uid="uid://ccb8k2cgroqlf" path="res://client/mats/green_material.tres" id="2_kt2mg"]
 
@@ -11,8 +12,13 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Arr
 material = ExtResource("2_kt2mg")
 size = Vector2(60, 60)
 
-[node name="CastleMap" type="NavigationRegion3D"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rwbij"]
+
+[node name="CastleMap" type="NavigationRegion3D" node_paths=PackedStringArray("bases", "spawns")]
 navigation_mesh = SubResource("NavigationMesh_krftg")
+script = ExtResource("1_4jp2f")
+bases = [NodePath("Base1"), NodePath("Base2")]
+spawns = [NodePath("Spawn1"), NodePath("Spawn2")]
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_d66si")
@@ -28,3 +34,24 @@ mesh = SubResource("PlaneMesh_0fask")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.275386, 0.398964, -0.874637, 0, 0.909816, 0.415011, 0.961334, -0.114288, 0.250551, 0, 0, 0)
+
+[node name="Spawn1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -22)
+
+[node name="Base1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -20)
+
+[node name="Spawn2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 21)
+
+[node name="Base2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 18)
+
+[node name="StructureSpawn" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://both/game/unit/Structures/Scenes/base.tscn")
+spawn_path = NodePath("..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_rwbij")

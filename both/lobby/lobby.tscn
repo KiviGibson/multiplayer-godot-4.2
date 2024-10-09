@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dmf0tdndqh2ym"]
+[gd_scene load_steps=6 format=3 uid="uid://dmf0tdndqh2ym"]
 
 [ext_resource type="Script" path="res://both/lobby/lobby.gd" id="1_sp031"]
 [ext_resource type="Script" path="res://both/game/Game.gd" id="2_arvk4"]
 [ext_resource type="PackedScene" uid="uid://2y0cku55c21l" path="res://both/game/unit/Units/Scenes/worker.tscn" id="3_eahqf"]
+[ext_resource type="PackedScene" uid="uid://763vnffm2dy1" path="res://both/game/unit/Structures/Scenes/base.tscn" id="4_w5jgs"]
 [ext_resource type="Script" path="res://both/game/map_loader.gd" id="4_ylfvs"]
 
 [node name="Lobby" type="Node3D" node_paths=PackedStringArray("game_root", "spawner")]
@@ -18,6 +19,8 @@ spawn_limit = 2
 [node name="Game" type="Node3D" parent="."]
 script = ExtResource("2_arvk4")
 worker_scene = ExtResource("3_eahqf")
+base = ExtResource("4_w5jgs")
+start_worker_amount = 3
 
 [node name="MapSpawn" type="MultiplayerSpawner" parent="Game"]
 spawn_path = NodePath("..")
